@@ -13,10 +13,7 @@ import com.dotest.dsg.entityview.PagedResult;
 import com.dotest.dsg.entityview.PaginatedResult;
 import com.dotest.dsg.repository.BankAccountRepository;
 import com.dotest.dsg.service.BankAccountService;
-import com.netflix.graphql.dgs.DgsComponent;
-import com.netflix.graphql.dgs.DgsDataFetchingEnvironment;
-import com.netflix.graphql.dgs.DgsQuery;
-import com.netflix.graphql.dgs.InputArgument;
+import com.netflix.graphql.dgs.*;
 import jakarta.persistence.EntityManager;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.util.Strings;
@@ -90,6 +87,11 @@ public class BankAccountDataFetcher {
     @DgsQuery
     public PaginatedResult<BankAccountView> bankAccountPage(@InputArgument BankAccountPagedQuery query, DgsDataFetchingEnvironment dfe) {
         return bankAccountService.getPage(query, dfe);
+    }
+
+    @DgsMutation
+    public Boolean deleteBankAccount(@InputArgument Long id) {
+        return bankAccountService.deleteBankAccount(id);
     }
 
 //    @DgsQuery

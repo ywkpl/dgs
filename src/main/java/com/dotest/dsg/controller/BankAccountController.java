@@ -6,6 +6,7 @@ import com.dotest.dsg.entityview.BankAccountView;
 import com.dotest.dsg.entityview.PaginatedResult;
 import com.dotest.dsg.service.BankAccountService;
 import jakarta.validation.Valid;
+import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -37,5 +38,10 @@ public class BankAccountController {
     @GetMapping("/getPage")
     public PaginatedResult<BankAccountView> getPage(@Valid BankAccountPagedQuery query) {
         return bankAccountService.getPage(query, null);
+    }
+
+    @GetMapping("/delete")
+    public Boolean delete(@Valid Long id) {
+        return bankAccountService.deleteBankAccount(id);
     }
 }

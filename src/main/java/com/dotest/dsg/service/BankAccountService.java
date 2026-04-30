@@ -14,6 +14,7 @@ import com.dotest.dsg.entityview.BankAccountView;
 import com.dotest.dsg.entityview.PaginatedResult;
 import com.netflix.graphql.dgs.DgsDataFetchingEnvironment;
 import jakarta.persistence.EntityManager;
+import jakarta.transaction.Transactional;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.stereotype.Service;
 
@@ -102,5 +103,13 @@ public class BankAccountService {
                 .pageNumber(resultList.getPage())
                 .build();
         return result;
+    }
+
+    @Transactional
+    public Boolean deleteBankAccount(Long id) {
+        int count = cbf.delete(em, BankAccount.class)
+                .where("id").eq().value(id)
+                .executeUpdate();
+        return count > 0;
     }
 }

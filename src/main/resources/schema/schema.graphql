@@ -23,6 +23,10 @@ type Query{
 #    bankInfosPaged(page:Int=1,size:Int=10):BankInfoPage
 }
 
+type Mutation{
+    deleteBankAccount(id: ID!): Boolean
+}
+
 type BankAccountPaged @skipcodegen {
     content: [BankAccount]
     totalElements: Int

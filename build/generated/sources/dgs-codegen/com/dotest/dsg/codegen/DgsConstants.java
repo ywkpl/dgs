@@ -5,6 +5,8 @@ import java.lang.String;
 public class DgsConstants {
   public static final String QUERY_TYPE = "Query";
 
+  public static final String MUTATION_TYPE = "Mutation";
+
   public static class QUERY {
     public static final String TYPE_NAME = "Query";
 
@@ -68,6 +70,16 @@ public class DgsConstants {
       public static final String Page = "page";
 
       public static final String Size = "size";
+    }
+  }
+
+  public static class MUTATION {
+    public static final String TYPE_NAME = "Mutation";
+
+    public static final String DeleteBankAccount = "deleteBankAccount";
+
+    public static class DELETEBANKACCOUNT_INPUT_ARGUMENT {
+      public static final String Id = "id";
     }
   }
 
