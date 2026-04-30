@@ -1,0 +1,34 @@
+package com.dotest.dsg.controller;
+
+import com.dotest.dsg.codegen.types.BankAccountQuery;
+import com.dotest.dsg.entityview.BankAccountView;
+import com.dotest.dsg.service.BankAccountService;
+import jakarta.validation.Valid;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/bankAccount")
+public class BankAccountController {
+    private final BankAccountService bankAccountService;
+
+    public BankAccountController(BankAccountService bankAccountService) {
+        this.bankAccountService = bankAccountService;
+    }
+
+    @GetMapping("/get/{id}")
+    public ResponseEntity<BankAccountView> getBankAccount(@PathVariable Long id) {
+        BankAccountView bankAccount = bankAccountService.getBankAccount(id, null);
+        return ResponseEntity.ok(bankAccount);
+    }
+
+    @GetMapping("/getList")
+    public List<BankAccountView> getList(@Valid BankAccountQuery query) {
+        return bankAccountService.getList(query, null);
+    }
+}
