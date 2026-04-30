@@ -9,7 +9,7 @@ import java.util.List;
 @Builder
 public class PaginatedResult<T> {
     private List<T> content;
-    private long totalElements;
+    private int totalElements;
     private int totalPages;
     private int pageNumber;
 }

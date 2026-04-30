@@ -1,7 +1,9 @@
 package com.dotest.dsg.controller;
 
+import com.dotest.dsg.codegen.types.BankAccountPagedQuery;
 import com.dotest.dsg.codegen.types.BankAccountQuery;
 import com.dotest.dsg.entityview.BankAccountView;
+import com.dotest.dsg.entityview.PaginatedResult;
 import com.dotest.dsg.service.BankAccountService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -30,5 +32,10 @@ public class BankAccountController {
     @GetMapping("/getList")
     public List<BankAccountView> getList(@Valid BankAccountQuery query) {
         return bankAccountService.getList(query, null);
+    }
+
+    @GetMapping("/getPage")
+    public PaginatedResult<BankAccountView> getPage(@Valid BankAccountPagedQuery query) {
+        return bankAccountService.getPage(query, null);
     }
 }

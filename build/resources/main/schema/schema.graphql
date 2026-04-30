@@ -10,6 +10,7 @@ type Query{
     sysCodes(query:SysCodeQuery): [SysCodeView]
     sysCode(id: ID!): SysCodeView
     bankAccounts(query:BankAccountQuery): [BankAccount]
+    bankAccountPage(query:BankAccountPagedQuery): BankAccountPaged
     bankAccount(id: ID!): BankAccount
 
     workCodes(query:WorkCodeQuery):[WorkCodeView]
@@ -20,6 +21,13 @@ type Query{
 #    bankAccountsTest(query:BankAccountQuery): [BankAccount] @pageTest
 
 #    bankInfosPaged(page:Int=1,size:Int=10):BankInfoPage
+}
+
+type BankAccountPaged @skipcodegen {
+    content: [BankAccount]
+    totalElements: Int
+    totalPages: Int
+    pageNumber: Int
 }
 
 type TestPage @skipcodegen {
@@ -85,6 +93,13 @@ input pageInput{
 input BankAccountQuery {
     accountName: String
     accountNo: String
+}
+
+input BankAccountPagedQuery {
+    accountName: String
+    accountNo: String
+    page: Int=1
+    size: Int=10
 }
 
 input SysCodeQuery {

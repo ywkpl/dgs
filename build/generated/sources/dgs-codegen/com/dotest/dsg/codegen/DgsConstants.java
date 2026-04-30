@@ -20,6 +20,8 @@ public class DgsConstants {
 
     public static final String BankAccounts = "bankAccounts";
 
+    public static final String BankAccountPage = "bankAccountPage";
+
     public static final String BankAccount = "bankAccount";
 
     public static final String WorkCodes = "workCodes";
@@ -50,6 +52,10 @@ public class DgsConstants {
       public static final String Query = "query";
     }
 
+    public static class BANKACCOUNTPAGE_INPUT_ARGUMENT {
+      public static final String Query = "query";
+    }
+
     public static class BANKACCOUNT_INPUT_ARGUMENT {
       public static final String Id = "id";
     }
@@ -63,6 +69,18 @@ public class DgsConstants {
 
       public static final String Size = "size";
     }
+  }
+
+  public static class BANKACCOUNTPAGED {
+    public static final String TYPE_NAME = "BankAccountPaged";
+
+    public static final String Content = "content";
+
+    public static final String TotalElements = "totalElements";
+
+    public static final String TotalPages = "totalPages";
+
+    public static final String PageNumber = "pageNumber";
   }
 
   public static class TESTPAGE {
@@ -111,6 +129,18 @@ public class DgsConstants {
     public static final String AccountName = "accountName";
 
     public static final String AccountNo = "accountNo";
+  }
+
+  public static class BANKACCOUNTPAGEDQUERY {
+    public static final String TYPE_NAME = "BankAccountPagedQuery";
+
+    public static final String AccountName = "accountName";
+
+    public static final String AccountNo = "accountNo";
+
+    public static final String Page = "page";
+
+    public static final String Size = "size";
   }
 
   public static class SYSCODEQUERY {

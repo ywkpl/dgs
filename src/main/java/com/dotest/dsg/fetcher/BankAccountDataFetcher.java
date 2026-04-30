@@ -4,6 +4,7 @@ import com.blazebit.persistence.*;
 import com.blazebit.persistence.integration.graphql.GraphQLEntityViewSupport;
 import com.blazebit.persistence.view.EntityViewManager;
 import com.blazebit.persistence.view.EntityViewSetting;
+import com.dotest.dsg.codegen.types.BankAccountPagedQuery;
 import com.dotest.dsg.codegen.types.BankAccountQuery;
 import com.dotest.dsg.entity.BankAccount;
 import com.dotest.dsg.entityview.BankAccountView;
@@ -86,10 +87,10 @@ public class BankAccountDataFetcher {
         return bankAccountService.getList(query, dfe);
     }
 
-//    @DgsQuery
-//    public PagedList<BankAccountView> bankAccountPage(@InputArgument BankAccountQuery query, DgsDataFetchingEnvironment dfe) {
-//        return bankAccountService.getPage(query, dfe);
-//    }
+    @DgsQuery
+    public PaginatedResult<BankAccountView> bankAccountPage(@InputArgument BankAccountPagedQuery query, DgsDataFetchingEnvironment dfe) {
+        return bankAccountService.getPage(query, dfe);
+    }
 
 //    @DgsQuery
 //    public List<BankAccountView> bankAccounts(@InputArgument BankAccountQuery query, DgsDataFetchingEnvironment dfe) {
