@@ -1,27 +1,31 @@
 package com.dotest.dsg.fetcher;
 
-import com.blazebit.persistence.CriteriaBuilder;
-import com.blazebit.persistence.CriteriaBuilderFactory;
-import com.blazebit.persistence.PagedList;
-import com.blazebit.persistence.PaginatedCriteriaBuilder;
+import com.blazebit.persistence.*;
 import com.blazebit.persistence.integration.graphql.GraphQLEntityViewSupport;
+import com.blazebit.persistence.view.ConvertOption;
 import com.blazebit.persistence.view.EntityViewManager;
 import com.blazebit.persistence.view.EntityViewSetting;
 import com.dotest.dsg.codegen.types.BankInfoQuery;
+import com.dotest.dsg.codegen.types.CreateBankInfo;
+import com.dotest.dsg.codegen.types.UpdateBankInfo;
+import com.dotest.dsg.config.PatchMapper;
+import com.dotest.dsg.entity.BankAccount;
 import com.dotest.dsg.entity.BankInfo;
+import com.dotest.dsg.entityview.BankAccountView;
+import com.dotest.dsg.entityview.BankInfoUpdateView;
 import com.dotest.dsg.entityview.BankInfoView;
 import com.dotest.dsg.repository.BankInfoRepository;
-import com.netflix.graphql.dgs.DgsComponent;
-import com.netflix.graphql.dgs.DgsDataFetchingEnvironment;
-import com.netflix.graphql.dgs.DgsQuery;
-import com.netflix.graphql.dgs.InputArgument;
+import com.netflix.graphql.dgs.*;
 import graphql.schema.DataFetchingEnvironment;
 import jakarta.persistence.EntityManager;
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.time.ZonedDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Slf4j
 @DgsComponent
@@ -67,8 +71,71 @@ public class BankInfoDataFetcher {
     }
 
     @DgsQuery
-    public BankInfo bankInfo(Long id) {
-        return bankInfoRepository.findById(id).orElse(null);
+    public BankInfoView bankInfo(@InputArgument String id, DgsDataFetchingEnvironment dfe) {
+        CriteriaBuilder<BankInfo> cb = cbf.create(em, BankInfo.class);
+        cb.where("id").eq().value(Long.parseLong(id));
+
+        EntityViewSetting<BankInfoView, CriteriaBuilder<BankInfoView>> setting;
+        if (dfe == null) {
+            setting = EntityViewSetting.create(BankInfoView.class);
+        } else {
+            setting = graphQLEntityViewSupport.createSetting(BankInfoView.class, dfe);
+        }
+        FullQueryBuilder<BankInfoView, ?> test = evm.applySetting(setting, cb);
+        return test.getSingleResultOrNull();
+    }
+
+    @Autowired
+    private PatchMapper patchMapper;
+
+    @DgsMutation
+    @Transactional
+    public BankInfoView updateBankInfo(@InputArgument UpdateBankInfo input, DgsDataFetchingEnvironment dfe) {
+
+//            evm.convert(input, BankInfoView.class, ConvertOption.CREATE_NEW)
+
+        BankInfoUpdateView infoView = evm.getReference(BankInfoUpdateView.class, Long.parseLong(input.getId()));
+        patchMapper.patch(input, infoView);
+        evm.save(em, infoView);
+        return evm.find(em, BankInfoView.class, input.getId());
+
+//        BankInfoView bankInfoView = evm.getReference(BankInfoView.class, Long.parseLong(input.getId()));
+//        patchMapper.patch(input, bankInfoView);
+//
+//        evm.save(em, bankInfoView);
+//        return getBankInfo(Long.parseLong(input.getId()), dfe);
+    }
+
+    @DgsMutation
+    @Transactional
+    public BankInfoView createBankInfo(@InputArgument CreateBankInfo input, DgsDataFetchingEnvironment dfe) {
+
+        BankInfoUpdateView view = evm.create(BankInfoUpdateView.class);
+        view.setId(ZonedDateTime.now().toInstant().toEpochMilli());
+        patchMapper.patch(input, view);
+        evm.save(em, view);
+        Long id = view.getId();
+        return evm.find(em, BankInfoView.class, id);
+
+//        BankInfoView bankInfoView = evm.getReference(BankInfoView.class, Long.parseLong(input.getId()));
+//        patchMapper.patch(input, bankInfoView);
+//
+//        evm.save(em, bankInfoView);
+//        return getBankInfo(Long.parseLong(input.getId()), dfe);
+    }
+
+    public BankInfoView getBankInfo(Long id, DgsDataFetchingEnvironment dfe) {
+        CriteriaBuilder<BankInfo> cb = cbf.create(em, BankInfo.class);
+        cb.where("id").eq().value(id);
+
+        EntityViewSetting<BankInfoView, CriteriaBuilder<BankInfoView>> setting;
+        if (dfe == null) {
+            setting = EntityViewSetting.create(BankInfoView.class);
+        } else {
+            setting = graphQLEntityViewSupport.createSetting(BankInfoView.class, dfe);
+        }
+        FullQueryBuilder<BankInfoView, ?> test = evm.applySetting(setting, cb);
+        return test.getSingleResultOrNull();
     }
 
 //    @DgsQuery

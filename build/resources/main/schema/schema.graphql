@@ -22,9 +22,29 @@ type Query{
 
 #    bankInfosPaged(page:Int=1,size:Int=10):BankInfoPage
 }
+input UpdateBankInfo{
+    id: ID!
+    addr: String
+    name: String
+    branchCode: String
+    code: String
+    enable: Boolean
+    tel: String
+}
+
+input CreateBankInfo{
+    addr: String
+    name: String
+    branchCode: String
+    code: String
+    enable: Boolean
+    tel: String
+}
 
 type Mutation{
     deleteBankAccount(id: ID!): Boolean
+    updateBankInfo(input: UpdateBankInfo): BankInfoView
+    createBankInfo(input: CreateBankInfo): BankInfoView
 }
 
 type BankAccountPaged @skipcodegen {

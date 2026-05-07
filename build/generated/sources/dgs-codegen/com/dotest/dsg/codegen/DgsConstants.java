@@ -78,8 +78,20 @@ public class DgsConstants {
 
     public static final String DeleteBankAccount = "deleteBankAccount";
 
+    public static final String UpdateBankInfo = "updateBankInfo";
+
+    public static final String CreateBankInfo = "createBankInfo";
+
     public static class DELETEBANKACCOUNT_INPUT_ARGUMENT {
       public static final String Id = "id";
+    }
+
+    public static class UPDATEBANKINFO_INPUT_ARGUMENT {
+      public static final String Input = "input";
+    }
+
+    public static class CREATEBANKINFO_INPUT_ARGUMENT {
+      public static final String Input = "input";
     }
   }
 
@@ -113,6 +125,40 @@ public class DgsConstants {
     public static final String Title = "title";
 
     public static final String ReleaseYear = "releaseYear";
+  }
+
+  public static class UPDATEBANKINFO {
+    public static final String TYPE_NAME = "UpdateBankInfo";
+
+    public static final String Id = "id";
+
+    public static final String Addr = "addr";
+
+    public static final String Name = "name";
+
+    public static final String BranchCode = "branchCode";
+
+    public static final String Code = "code";
+
+    public static final String Enable = "enable";
+
+    public static final String Tel = "tel";
+  }
+
+  public static class CREATEBANKINFO {
+    public static final String TYPE_NAME = "CreateBankInfo";
+
+    public static final String Addr = "addr";
+
+    public static final String Name = "name";
+
+    public static final String BranchCode = "branchCode";
+
+    public static final String Code = "code";
+
+    public static final String Enable = "enable";
+
+    public static final String Tel = "tel";
   }
 
   public static class WORKCODEQUERY {
