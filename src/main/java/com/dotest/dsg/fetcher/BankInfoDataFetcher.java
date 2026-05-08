@@ -111,7 +111,7 @@ public class BankInfoDataFetcher {
     public BankInfoView createBankInfo(@InputArgument CreateBankInfo input, DgsDataFetchingEnvironment dfe) {
 
         BankInfoUpdateView view = evm.create(BankInfoUpdateView.class);
-        view.setId(ZonedDateTime.now().toInstant().toEpochMilli());
+//        view.setId(ZonedDateTime.now().toInstant().toEpochMilli());
         patchMapper.patch(input, view);
         evm.save(em, view);
         Long id = view.getId();
