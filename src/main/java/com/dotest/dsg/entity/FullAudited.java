@@ -1,5 +1,6 @@
 package com.dotest.dsg.entity;
 
+import com.dotest.dsg.utils.SnowflakeIdListener;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -13,9 +14,9 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
+@EntityListeners(SnowflakeIdListener.class)
 public class FullAudited implements Serializable {
     @Id
-//    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
     @Column(updatable = false)
     private Date creationTime;
@@ -30,9 +31,10 @@ public class FullAudited implements Serializable {
             creationTime = new Date();
         }
     }
+
     @Column(columnDefinition = "bit default 0")
     @Builder.Default
-    private Boolean isDeleted=false;
+    private Boolean isDeleted = false;
     private Long deleterUserId;
     public Date deletionTime;
 }
