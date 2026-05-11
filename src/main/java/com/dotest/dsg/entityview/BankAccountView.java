@@ -19,7 +19,7 @@ import java.time.ZonedDateTime;
 @GraphQLName("BankAccount")
 public interface BankAccountView {
     @IdMapping
-    public Long getId();
+    Long getId();
 
     String getAccountName();
 

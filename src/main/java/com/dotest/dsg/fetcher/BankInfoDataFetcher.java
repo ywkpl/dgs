@@ -14,6 +14,7 @@ import com.dotest.dsg.entity.BankInfo;
 import com.dotest.dsg.entityview.BankAccountView;
 import com.dotest.dsg.entityview.BankInfoUpdateView;
 import com.dotest.dsg.entityview.BankInfoView;
+import com.dotest.dsg.mapper.BankInfoMapper;
 import com.dotest.dsg.repository.BankInfoRepository;
 import com.netflix.graphql.dgs.*;
 import graphql.schema.DataFetchingEnvironment;
@@ -35,12 +36,14 @@ public class BankInfoDataFetcher {
     private final CriteriaBuilderFactory cbf;
     private final EntityManager em;
     private final EntityViewManager evm;
+    private final BankInfoMapper bankInfoMapper;
 
-    public BankInfoDataFetcher(BankInfoRepository bankInfoRepository, CriteriaBuilderFactory cbf, EntityManager em, EntityViewManager evm) {
+    public BankInfoDataFetcher(BankInfoRepository bankInfoRepository, CriteriaBuilderFactory cbf, EntityManager em, EntityViewManager evm, BankInfoMapper bankInfoMapper) {
         this.bankInfoRepository = bankInfoRepository;
         this.cbf = cbf;
         this.em = em;
         this.evm = evm;
+        this.bankInfoMapper = bankInfoMapper;
     }
 
     @Autowired
@@ -95,7 +98,7 @@ public class BankInfoDataFetcher {
 //            evm.convert(input, BankInfoView.class, ConvertOption.CREATE_NEW)
 
         BankInfoUpdateView infoView = evm.getReference(BankInfoUpdateView.class, Long.parseLong(input.getId()));
-        patchMapper.patch(input, infoView);
+        bankInfoMapper.updateView(input, infoView);
         evm.save(em, infoView);
         return evm.find(em, BankInfoView.class, input.getId());
 
@@ -109,10 +112,11 @@ public class BankInfoDataFetcher {
     @DgsMutation
     @Transactional
     public BankInfoView createBankInfo(@InputArgument CreateBankInfo input, DgsDataFetchingEnvironment dfe) {
+        BankInfoUpdateView view = bankInfoMapper.toCreate(input);
 
-        BankInfoUpdateView view = evm.create(BankInfoUpdateView.class);
+//        BankInfoUpdateView view = evm.create(BankInfoUpdateView.class);
 //        view.setId(ZonedDateTime.now().toInstant().toEpochMilli());
-        patchMapper.patch(input, view);
+//        patchMapper.patch(input, view);
         evm.save(em, view);
         Long id = view.getId();
         return evm.find(em, BankInfoView.class, id);

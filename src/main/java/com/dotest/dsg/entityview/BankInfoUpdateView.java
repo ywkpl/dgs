@@ -7,8 +7,6 @@ import com.dotest.dsg.entity.BankInfo;
 @CreatableEntityView
 @UpdatableEntityView
 public interface BankInfoUpdateView extends BankInfoView {
-    void setId(Long id);
-
     void setEnable(Boolean enable);
 
     void setTel(String tel);
