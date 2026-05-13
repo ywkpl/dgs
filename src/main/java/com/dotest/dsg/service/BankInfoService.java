@@ -12,6 +12,7 @@ import com.dotest.dsg.codegen.types.BankInfoQuery;
 import com.dotest.dsg.codegen.types.CreateBankInfo;
 import com.dotest.dsg.codegen.types.UpdateBankInfo;
 import com.dotest.dsg.entity.BankInfo;
+import com.dotest.dsg.entityview.BankAccountView;
 import com.dotest.dsg.entityview.BankInfoUpdateView;
 import com.dotest.dsg.entityview.BankInfoView;
 import com.dotest.dsg.entityview.PaginatedResult;
@@ -73,7 +74,13 @@ public class BankInfoService {
         }
         cb.orderBy("id", true);
 
-        EntityViewSetting<BankInfoView, CriteriaBuilder<BankInfoView>> setting = getEntityViewSetting(BankInfoView.class, dfe);
+        EntityViewSetting<BankInfoView, CriteriaBuilder<BankInfoView>> setting;
+        if (dfe == null) {
+            setting = EntityViewSetting.create(BankInfoView.class);
+        } else {
+            setting = entityViewSupport.createSetting(BankInfoView.class, dfe, "content");
+        }
+//        EntityViewSetting<BankInfoView, CriteriaBuilder<BankInfoView>> setting = getEntityViewSetting(BankInfoView.class, dfe);
         FullQueryBuilder<BankInfoView, ?> queryBuilder = evm.applySetting(setting, cb);
 
         //分頁[如果有分頁對象/接口]
