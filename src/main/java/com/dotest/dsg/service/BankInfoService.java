@@ -101,7 +101,7 @@ public class BankInfoService {
 
     @Transactional
     public BankInfoView update(UpdateBankInfo input, DgsDataFetchingEnvironment dfe) {
-        BankInfoUpdateView infoView = evm.getReference(BankInfoUpdateView.class, Long.parseLong(input.getId()));
+        BankInfoUpdateView infoView = evm.getReference(BankInfoUpdateView.class, input.getId());
         bankInfoMapper.updateView(input, infoView);
         evm.save(em, infoView);
         return this.get(infoView.getId(), dfe);

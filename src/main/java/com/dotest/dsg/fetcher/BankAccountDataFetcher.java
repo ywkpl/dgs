@@ -5,12 +5,14 @@ import com.blazebit.persistence.integration.graphql.GraphQLEntityViewSupport;
 import com.blazebit.persistence.view.EntityViewManager;
 import com.dotest.dsg.codegen.types.BankAccountPagedQuery;
 import com.dotest.dsg.codegen.types.BankAccountQuery;
+import com.dotest.dsg.codegen.types.CreateBankAccount;
 import com.dotest.dsg.entityview.BankAccountView;
 import com.dotest.dsg.entityview.PaginatedResult;
 import com.dotest.dsg.repository.BankAccountRepository;
 import com.dotest.dsg.service.BankAccountService;
 import com.netflix.graphql.dgs.*;
 import jakarta.persistence.EntityManager;
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -131,6 +133,10 @@ public class BankAccountDataFetcher {
 //        return bankAccountView;
     }
 
+    @DgsMutation
+    public BankAccountView createBankAccount(@InputArgument CreateBankAccount input, DgsDataFetchingEnvironment dfe) {
+        return bankAccountService.create(input, dfe);
+    }
 
 //    @DgsQuery
 //    public CriteriaBuilder<BankAccount> bankAccountsTest(@InputArgument BankAccountQuery query) {

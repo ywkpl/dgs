@@ -22,18 +22,18 @@ public interface BankAccountUpdateView extends BankAccountView {
 
     void setShortName(String shortName);
 
-    void setFileId(Long fileId);
-
-    void setIsDefault(Boolean isDefault);
-
-    void setIsAch(Boolean isAch);
-
-    void setIsAchApproval(Boolean isAchApproval);
-
-    void setBankCode(String bankCode);
-
-    void setMemo(String memo);
-
+//    void setFileId(Long fileId);
+//
+//    void setIsDefault(Boolean isDefault);
+//
+//    void setIsAch(Boolean isAch);
+//
+//    void setIsAchApproval(Boolean isAchApproval);
+//
+//    void setBankCode(String bankCode);
+//
+//    void setMemo(String memo);
+//
     void setGuiNo(String guiNo);
 
     void setStopDate(ZonedDateTime stopDate);
@@ -43,43 +43,30 @@ public interface BankAccountUpdateView extends BankAccountView {
     void setAmount20kCode(String amount20kCode);
 
     void setAmount40kFee(BigDecimal amount40kFee);
-
-    String getAmount40kCode();
-    void setAmount40kCode(String amount40kCode);
-
-    BigDecimal getAmount60kFee();
-    void setAmount60kFee(BigDecimal amount60kFee);
-
-    String getAmount60kCode();
-    void setAmount60kCode(String amount60kCode);
-
-    Integer getCodeQty();
-    void setCodeQty(Integer codeQty);
-
-    SysCodeSimpleView getCodeBankFileType();
-    void setCodeBankFileType(SysCodeSimpleView codeBankFileType);
-
-    SysCodeSimpleView getCodeTransFeePayer();
-    void setCodeTransFeePayer(SysCodeSimpleView codeTransFeePayer);
-
-    Long getCompanyId();
-    void setCompanyId(Long companyId);
-
-    Long getTenantId();
-    void setTenantId(Long tenantId);
-
-    String getOnlineBankingId();
-    void setOnlineBankingId(String onlineBankingId);
-
-    String getOnlineBankingUser();
-    void setOnlineBankingUser(String onlineBankingUser);
-
-    String getOnlineBankingPassword();
-    void setOnlineBankingPassword(String onlineBankingPassword);
-
-    Long getInvoiceUnitId();
-    void setInvoiceUnitId(Long invoiceUnitId);
-
-    SysCodeSimpleView getCodeBankFileType2();
-    void setCodeBankFileType2(SysCodeSimpleView codeBankFileType2);
+//
+//    void setAmount40kCode(String amount40kCode);
+//
+//    void setAmount60kFee(BigDecimal amount60kFee);
+//
+//    void setAmount60kCode(String amount60kCode);
+//
+//    void setCodeQty(Integer codeQty);
+//
+//    void setCodeBankFileType(SysCodeSimpleView codeBankFileType);
+//
+//    void setCodeTransFeePayer(SysCodeSimpleView codeTransFeePayer);
+//
+//    void setCompanyId(Long companyId);
+//
+//    void setTenantId(Long tenantId);
+//
+//    void setOnlineBankingId(String onlineBankingId);
+//
+//    void setOnlineBankingUser(String onlineBankingUser);
+//
+//    void setOnlineBankingPassword(String onlineBankingPassword);
+//
+//    void setInvoiceUnitId(Long invoiceUnitId);
+//
+//    void setCodeBankFileType2(SysCodeSimpleView codeBankFileType2);
 }

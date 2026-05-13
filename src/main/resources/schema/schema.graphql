@@ -1,5 +1,7 @@
 directive @skipcodegen on OBJECT | INTERFACE | FIELD_DEFINITION
 directive @uppercase on FIELD_DEFINITION
+#scalar DateTime
+#scalar BigDecimal
 #directive @pageTest on FIELD_DEFINITION
 #directive @paged on FIELD_DEFINITION
 
@@ -17,11 +19,11 @@ type Query{
     workCodes(query:WorkCodeQuery):[WorkCodeView]
 
     doIt(page:Int=0,size:Int=10):TestPage
-#    bankAccountPaged(page:Int=0,size:Int=10):BankAccountPaged
+    #    bankAccountPaged(page:Int=0,size:Int=10):BankAccountPaged
 
-#    bankAccountsTest(query:BankAccountQuery): [BankAccount] @pageTest
+    #    bankAccountsTest(query:BankAccountQuery): [BankAccount] @pageTest
 
-#    bankInfosPaged(page:Int=1,size:Int=10):BankInfoPage
+    #    bankInfosPaged(page:Int=1,size:Int=10):BankInfoPage
 }
 input UpdateBankInfo{
     id: ID!
@@ -42,8 +44,22 @@ input CreateBankInfo{
     tel: String
 }
 
+input CreateBankAccount{
+    accountName:String
+    bankInfoId:ID
+    accountNo:String
+    shortName:String
+    guiNo:String
+    stopDate:DateTime
+    amount20kFee:BigDecimal
+    amount20kCode:String
+    amount40kFee:BigDecimal
+}
+
 type Mutation{
     deleteBankAccount(id: ID!): Boolean
+    #    updateBankAccount(input: UpdateBankAccount): BankAccount
+    createBankAccount(input: CreateBankAccount): BankAccount
     deleteBankInfo(id: ID!): Boolean
     updateBankInfo(input: UpdateBankInfo): BankInfoView
     createBankInfo(input: CreateBankInfo): BankInfoView
@@ -82,7 +98,7 @@ input WorkCodeQuery{
     name: String
     deptId: ID
     codes: [String]
-#    validAtDate: Date
+    #    validAtDate: Date
 }
 
 #type BankInfoPage{

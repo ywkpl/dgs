@@ -9,9 +9,11 @@ import com.blazebit.persistence.view.EntityViewManager;
 import com.blazebit.persistence.view.EntityViewSetting;
 import com.dotest.dsg.codegen.types.BankAccountPagedQuery;
 import com.dotest.dsg.codegen.types.BankAccountQuery;
+import com.dotest.dsg.codegen.types.CreateBankAccount;
+import com.dotest.dsg.codegen.types.CreateBankInfo;
 import com.dotest.dsg.entity.BankAccount;
-import com.dotest.dsg.entityview.BankAccountView;
-import com.dotest.dsg.entityview.PaginatedResult;
+import com.dotest.dsg.entityview.*;
+import com.dotest.dsg.mapper.BankAccountMapper;
 import com.netflix.graphql.dgs.DgsDataFetchingEnvironment;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
@@ -26,12 +28,14 @@ public class BankAccountService {
     private final EntityManager em;
     private final EntityViewManager evm;
     private final GraphQLEntityViewSupport entityViewSupport;
+    private final BankAccountMapper bankAccountMapper;
 
-    public BankAccountService(CriteriaBuilderFactory cbf, EntityManager em, EntityViewManager evm, GraphQLEntityViewSupport entityViewSupport) {
+    public BankAccountService(CriteriaBuilderFactory cbf, EntityManager em, EntityViewManager evm, GraphQLEntityViewSupport entityViewSupport, BankAccountMapper bankAccountMapper) {
         this.cbf = cbf;
         this.em = em;
         this.evm = evm;
         this.entityViewSupport = entityViewSupport;
+        this.bankAccountMapper = bankAccountMapper;
     }
 
     public BankAccountView get(Long id, DgsDataFetchingEnvironment dfe) {
@@ -97,7 +101,12 @@ public class BankAccountService {
         return count > 0;
     }
 
-
+    @Transactional
+    public BankAccountView create(CreateBankAccount input, DgsDataFetchingEnvironment dfe) {
+        BankAccountUpdateView view = bankAccountMapper.toCreate(input);
+        evm.save(em, view);
+        return this.get(view.getId(), dfe);
+    }
 
     /// TODO 後緒修改為直接從泛型中獲取類型
     private <T> EntityViewSetting<T, CriteriaBuilder<T>> getEntityViewSetting(Class<T> clazz, DgsDataFetchingEnvironment dfe, boolean isPage) {

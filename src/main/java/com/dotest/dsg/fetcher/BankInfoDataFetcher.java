@@ -24,8 +24,8 @@ public class BankInfoDataFetcher {
     }
 
     @DgsQuery
-    public BankInfoView bankInfo(@InputArgument String id, DgsDataFetchingEnvironment dfe) {
-        return bankInfoService.get(Long.parseLong(id), dfe);
+    public BankInfoView bankInfo(@InputArgument Long id, DgsDataFetchingEnvironment dfe) {
+        return bankInfoService.get(id, dfe);
     }
 
     @DgsQuery
@@ -52,7 +52,7 @@ public class BankInfoDataFetcher {
 
     @DgsMutation
     @Transactional
-    public Boolean deleteBankInfo(@InputArgument String id) {
-        return bankInfoService.delete(Long.parseLong(id));
+    public Boolean deleteBankInfo(@InputArgument Long id) {
+        return bankInfoService.delete(id);
     }
 }
