@@ -6,10 +6,8 @@ import com.dotest.dsg.entityview.BankAccountView;
 import com.dotest.dsg.entityview.PaginatedResult;
 import com.dotest.dsg.service.BankAccountService;
 import jakarta.validation.Valid;
-import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,9 +22,9 @@ public class BankAccountController {
         this.bankAccountService = bankAccountService;
     }
 
-    @GetMapping("/get/{id}")
-    public ResponseEntity<BankAccountView> getBankAccount(@PathVariable Long id) {
-        BankAccountView bankAccount = bankAccountService.getBankAccount(id, null);
+    @GetMapping("/get")
+    public ResponseEntity<BankAccountView> getBankAccount(Long id) {
+        BankAccountView bankAccount = bankAccountService.get(id, null);
         return ResponseEntity.ok(bankAccount);
     }
 
@@ -42,6 +40,6 @@ public class BankAccountController {
 
     @GetMapping("/delete")
     public Boolean delete(@Valid Long id) {
-        return bankAccountService.deleteBankAccount(id);
+        return bankAccountService.delete(id);
     }
 }

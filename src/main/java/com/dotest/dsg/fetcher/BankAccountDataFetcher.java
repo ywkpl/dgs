@@ -3,20 +3,15 @@ package com.dotest.dsg.fetcher;
 import com.blazebit.persistence.*;
 import com.blazebit.persistence.integration.graphql.GraphQLEntityViewSupport;
 import com.blazebit.persistence.view.EntityViewManager;
-import com.blazebit.persistence.view.EntityViewSetting;
 import com.dotest.dsg.codegen.types.BankAccountPagedQuery;
 import com.dotest.dsg.codegen.types.BankAccountQuery;
-import com.dotest.dsg.entity.BankAccount;
 import com.dotest.dsg.entityview.BankAccountView;
-import com.dotest.dsg.entityview.BankInfoView;
-import com.dotest.dsg.entityview.PagedResult;
 import com.dotest.dsg.entityview.PaginatedResult;
 import com.dotest.dsg.repository.BankAccountRepository;
 import com.dotest.dsg.service.BankAccountService;
 import com.netflix.graphql.dgs.*;
 import jakarta.persistence.EntityManager;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -91,7 +86,7 @@ public class BankAccountDataFetcher {
 
     @DgsMutation
     public Boolean deleteBankAccount(@InputArgument Long id) {
-        return bankAccountService.deleteBankAccount(id);
+        return bankAccountService.delete(id);
     }
 
 //    @DgsQuery
@@ -129,7 +124,7 @@ public class BankAccountDataFetcher {
 //    }
     @DgsQuery
     public BankAccountView bankAccount(@InputArgument String id, DgsDataFetchingEnvironment dfe) {
-        return bankAccountService.getBankAccount(Long.parseLong(id), dfe);
+        return bankAccountService.get(Long.parseLong(id), dfe);
 
 
 //        BankAccountView bankAccountView = evm.find(em, BankAccountView.class, id);

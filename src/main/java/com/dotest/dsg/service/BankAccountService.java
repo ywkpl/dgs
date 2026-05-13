@@ -34,7 +34,7 @@ public class BankAccountService {
         this.entityViewSupport = entityViewSupport;
     }
 
-    public BankAccountView getBankAccount(Long id, DgsDataFetchingEnvironment dfe) {
+    public BankAccountView get(Long id, DgsDataFetchingEnvironment dfe) {
         CriteriaBuilder<BankAccount> cb = cbf.create(em, BankAccount.class);
         cb.where("id").eq().value(id);
 
@@ -58,18 +58,8 @@ public class BankAccountService {
         }
         cb.orderBy("id", true);
 
-        EntityViewSetting<BankAccountView, CriteriaBuilder<BankAccountView>> setting;
-        if (dfe == null) {
-            setting = EntityViewSetting.create(BankAccountView.class);
-        } else {
-            setting = entityViewSupport.createSetting(BankAccountView.class, dfe);
-        }
-
-        FullQueryBuilder<BankAccountView, ?> test = evm.applySetting(setting, cb);
-        //如果啥就分頁[可行]
-        PagedList<BankAccountView> resultList = test.page(0, 5)
-                .getResultList();
-        return resultList;
+        EntityViewSetting<BankAccountView, CriteriaBuilder<BankAccountView>> setting = this.getEntityViewSetting(BankAccountView.class, dfe, false);
+        return evm.applySetting(setting, cb).getResultList();
     }
 
     public PaginatedResult<BankAccountView> getPage(BankAccountPagedQuery query, DgsDataFetchingEnvironment dfe) {
@@ -82,13 +72,7 @@ public class BankAccountService {
         }
         cb.orderBy("id", true);
 
-        EntityViewSetting<BankAccountView, CriteriaBuilder<BankAccountView>> setting;
-        if (dfe == null) {
-            setting = EntityViewSetting.create(BankAccountView.class);
-        } else {
-            setting = entityViewSupport.createSetting(BankAccountView.class, dfe, "content");
-        }
-
+        EntityViewSetting<BankAccountView, CriteriaBuilder<BankAccountView>> setting=getEntityViewSetting(BankAccountView.class, dfe, true);
         FullQueryBuilder<BankAccountView, ?> test = evm.applySetting(setting, cb);
 
         //分頁[如果有分頁對象/接口]
@@ -106,12 +90,22 @@ public class BankAccountService {
     }
 
     @Transactional
-    public Boolean deleteBankAccount(Long id) {
+    public Boolean delete(Long id) {
         int count = cbf.delete(em, BankAccount.class)
                 .where("id").eq().value(id)
                 .executeUpdate();
         return count > 0;
     }
 
+
+
+    /// TODO 後緒修改為直接從泛型中獲取類型
+    private <T> EntityViewSetting<T, CriteriaBuilder<T>> getEntityViewSetting(Class<T> clazz, DgsDataFetchingEnvironment dfe, boolean isPage) {
+        return dfe == null ?
+                EntityViewSetting.create(clazz) :
+                isPage ?
+                        entityViewSupport.createSetting(clazz, dfe, "content") :
+                        entityViewSupport.createSetting(clazz, dfe);
+    }
 
 }
