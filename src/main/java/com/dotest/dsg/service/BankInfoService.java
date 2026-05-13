@@ -45,7 +45,7 @@ public class BankInfoService {
         CriteriaBuilder<BankInfo> cb = cbf.create(em, BankInfo.class);
         cb.where("id").eq().value(id);
 
-        EntityViewSetting<BankInfoView, CriteriaBuilder<BankInfoView>> setting = getEntityViewSetting(BankInfoView.class, dfe);
+        EntityViewSetting<BankInfoView, CriteriaBuilder<BankInfoView>> setting = getEntityViewSetting(BankInfoView.class, dfe,false);
         FullQueryBuilder<BankInfoView, ?> test = evm.applySetting(setting, cb);
         return test.getSingleResultOrNull();
     }
@@ -59,7 +59,7 @@ public class BankInfoService {
             cb.where("code").eq().value(query.getCode());
         }
 
-        EntityViewSetting<BankInfoView, CriteriaBuilder<BankInfoView>> setting = getEntityViewSetting(BankInfoView.class, dfe);
+        EntityViewSetting<BankInfoView, CriteriaBuilder<BankInfoView>> setting = getEntityViewSetting(BankInfoView.class, dfe,false);
 
         return evm.applySetting(setting, cb).getResultList();
     }
@@ -74,13 +74,7 @@ public class BankInfoService {
         }
         cb.orderBy("id", true);
 
-        EntityViewSetting<BankInfoView, CriteriaBuilder<BankInfoView>> setting;
-        if (dfe == null) {
-            setting = EntityViewSetting.create(BankInfoView.class);
-        } else {
-            setting = entityViewSupport.createSetting(BankInfoView.class, dfe, "content");
-        }
-//        EntityViewSetting<BankInfoView, CriteriaBuilder<BankInfoView>> setting = getEntityViewSetting(BankInfoView.class, dfe);
+        EntityViewSetting<BankInfoView, CriteriaBuilder<BankInfoView>> setting = getEntityViewSetting(BankInfoView.class, dfe,true);
         FullQueryBuilder<BankInfoView, ?> queryBuilder = evm.applySetting(setting, cb);
 
         //分頁[如果有分頁對象/接口]
@@ -121,9 +115,11 @@ public class BankInfoService {
     }
 
     /// TODO 後緒修改為直接從泛型中獲取類型
-    private <T> EntityViewSetting<T, CriteriaBuilder<T>> getEntityViewSetting(Class<T> clazz, DgsDataFetchingEnvironment dfe) {
+    private <T> EntityViewSetting<T, CriteriaBuilder<T>> getEntityViewSetting(Class<T> clazz, DgsDataFetchingEnvironment dfe, boolean isPage) {
         return dfe == null ?
                 EntityViewSetting.create(clazz) :
+                isPage ?
+                entityViewSupport.createSetting(clazz, dfe, "content") :
                 entityViewSupport.createSetting(clazz, dfe);
     }
 }
