@@ -5,8 +5,9 @@ directive @uppercase on FIELD_DEFINITION
 
 type Query{
     shows(titleFilter: String): [Show]
-    bankInfos(query: BankInfoQuery): [BankInfoView]
     bankInfo(id: ID!): BankInfoView
+    bankInfos(query: BankInfoQuery): [BankInfoView]
+    bankInfoPage(query:BankInfoPagedQuery): BankInfoPaged
     sysCodes(query:SysCodeQuery): [SysCodeView]
     sysCode(id: ID!): SysCodeView
     bankAccounts(query:BankAccountQuery): [BankAccount]
@@ -43,12 +44,20 @@ input CreateBankInfo{
 
 type Mutation{
     deleteBankAccount(id: ID!): Boolean
+    deleteBankInfo(id: ID!): Boolean
     updateBankInfo(input: UpdateBankInfo): BankInfoView
     createBankInfo(input: CreateBankInfo): BankInfoView
 }
 
 type BankAccountPaged @skipcodegen {
     content: [BankAccount]
+    totalElements: Int
+    totalPages: Int
+    pageNumber: Int
+}
+
+type BankInfoPaged @skipcodegen {
+    content: [BankInfoView]
     totalElements: Int
     totalPages: Int
     pageNumber: Int
@@ -134,6 +143,13 @@ input SysCodeQuery {
 input BankInfoQuery {
     name: String
     code: String
+}
+
+input BankInfoPagedQuery {
+    name: String
+    code: String
+    page: Int=1
+    size: Int=10
 }
 
 type Show{
