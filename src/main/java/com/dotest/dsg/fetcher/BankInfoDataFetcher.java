@@ -40,19 +40,19 @@ public class BankInfoDataFetcher {
 
     @DgsMutation
     @Transactional
-    public BankInfoView updateBankInfo(@InputArgument UpdateBankInfo input) {
-        return bankInfoService.update(input);
+    public BankInfoView updateBankInfo(@InputArgument UpdateBankInfo input, DgsDataFetchingEnvironment dfe) {
+        return bankInfoService.update(input, dfe);
     }
 
     @DgsMutation
     @Transactional
-    public BankInfoView createBankInfo(@InputArgument CreateBankInfo input) {
-        return bankInfoService.create(input);
+    public BankInfoView createBankInfo(@InputArgument CreateBankInfo input, DgsDataFetchingEnvironment dfe) {
+        return bankInfoService.create(input, dfe);
     }
 
     @DgsMutation
     @Transactional
-    public Boolean deleteBankInfo(@InputArgument Long id) {
-        return bankInfoService.delete(id);
+    public Boolean deleteBankInfo(@InputArgument String id) {
+        return bankInfoService.delete(Long.parseLong(id));
     }
 }

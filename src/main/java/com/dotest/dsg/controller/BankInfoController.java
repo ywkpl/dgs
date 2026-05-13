@@ -42,11 +42,11 @@ public class BankInfoController {
 
     @PostMapping("/create")
     public BankInfoView create(@RequestBody @Valid CreateBankInfo input) {
-        return bankInfoService.create(input);
+        return bankInfoService.create(input,null);
     }
 
     @PostMapping("/update")
     public BankInfoView update(@RequestBody @Valid UpdateBankInfo input) {
-        return bankInfoService.update(input);
+        return bankInfoService.update(input,null);
     }
 }

@@ -99,18 +99,18 @@ public class BankInfoService {
     }
 
     @Transactional
-    public BankInfoView update(UpdateBankInfo input) {
+    public BankInfoView update(UpdateBankInfo input, DgsDataFetchingEnvironment dfe) {
         BankInfoUpdateView infoView = evm.getReference(BankInfoUpdateView.class, Long.parseLong(input.getId()));
         bankInfoMapper.updateView(input, infoView);
         evm.save(em, infoView);
-        return evm.find(em, BankInfoView.class, input.getId());
+        return this.get(infoView.getId(), dfe);
     }
 
     @Transactional
-    public BankInfoView create(CreateBankInfo input) {
+    public BankInfoView create(CreateBankInfo input, DgsDataFetchingEnvironment dfe) {
         BankInfoUpdateView view = bankInfoMapper.toCreate(input);
         evm.save(em, view);
-        return evm.find(em, BankInfoView.class, view.getId());
+        return this.get(view.getId(), dfe);
     }
 
     /// TODO 後緒修改為直接從泛型中獲取類型
