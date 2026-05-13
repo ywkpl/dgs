@@ -37,6 +37,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-webmvc")
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("com.netflix.graphql.dgs:graphql-dgs-spring-graphql-starter")
+    implementation("com.netflix.graphql.dgs:graphql-dgs-extended-scalars")
 
     //MapStruct
     implementation("org.mapstruct:mapstruct:$mapStructVersion")
@@ -78,6 +79,11 @@ tasks.generateJava {
     schemaPaths.add("${projectDir}/src/main/resources/schema")
     packageName = "com.dotest.dsg.codegen"
     generateClient = true
+    typeMapping = mutableMapOf(
+        "DateTime" to "java.time.ZonedDateTime",
+        "ID" to "java.lang.Long",
+        "BigDecimal" to "java.math.BigDecimal"
+    )
 }
 
 tasks.withType<Test> {
