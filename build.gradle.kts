@@ -30,7 +30,7 @@ extra["netflixDgsVersion"] = "11.0.0"
 
 var blazeVersion = "1.6.18"    // blaze-persistence版本
 var mapStructVersion = "1.6.3" //mapStruct版本
-
+var cosIdVersion="3.0.5"
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
@@ -58,6 +58,10 @@ dependencies {
     implementation("com.blazebit:blaze-persistence-integration-spring-data-4.0:$blazeVersion")
     implementation("com.blazebit:blaze-persistence-integration-graphql-dgs-7.0:$blazeVersion")
 //	implementation("com.netflix.graphql.dgs:graphql-dgs-pagination:11.1.0")
+
+    //CosId
+    implementation("me.ahoo.cosid:cosid-spring-boot-starter:${cosIdVersion}")
+    implementation("org.springframework.boot:spring-boot-starter-actuator")
 
     compileOnly("org.projectlombok:lombok")
     runtimeOnly("org.mariadb.jdbc:mariadb-java-client")

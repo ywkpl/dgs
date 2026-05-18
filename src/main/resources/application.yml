@@ -10,8 +10,18 @@ spring:
     driver-class-name: 'org.mariadb.jdbc.Driver'
     username: 'smartcity'
     password: 'fPEkJYkJ1torjbRWRb0mpx1o29kaXpJd'
+    hikari:
+      maximum-pool-size: 30
+      minimum-idle: 10
+      connection-timeout: 30000 # 30秒
+      validation-timeout: 5000 # 5秒
+      idle-timeout: 300000  # 5分鐘
+      max-lifetime: 600000  # 10分鐘, 必須要比wait_timeout小
+      keepalive-time: 120000 # 2分鐘
+      leak-detection-threshold: 60000 # 60秒，幫助找出連線洩漏
   jpa:
-    show-sql: true
+    show-sql: false
+    open-in-view: false
     properties:
       hibernate:
         enable_lazy_load_no_trans: true
@@ -35,3 +45,21 @@ dsg:
     graphiql:
       enabled: true
       #path: /graphiql   # 瀏覽器打開 http://localhost:6789/graphiql
+logging:
+  level:
+    org.hibernate.SQL: DEBUG
+#    me.ahoo.cosid: debug
+
+cosid:
+  namespace: ${spring.application.name}
+  machine:
+    enabled: true
+    instance-id: ${spring.application.name}:${random.long[1000,99999]}   # 確保唯一
+    distributor:
+      type: manual
+      manual:
+        machine-id: 0 # 手動分配的機器 ID，單機部署固定設為 0 即可
+  snowflake:
+    enabled: true # 啟用雪花算法 ID 生成器
+    share:
+      clock-sync: true # 啟用時鐘回撥自動同步等待（強烈建議開啟，防止伺服器時鐘回撥導致報錯）
